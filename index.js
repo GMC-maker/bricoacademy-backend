@@ -7,6 +7,7 @@ const { logMensaje } = require("./utils/logger.js");
 // Rutas de la API
 const teachersRoutes = require("./routes/teacherRoutes");
 const coursesRoutes = require("./routes/courseRoutes");
+const statsRoutes = require("./routes/statsRoutes");
 
 // INICIALIZACIÓN
 const app = express();
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/teachers", teachersRoutes);
 app.use("/api/courses", coursesRoutes);
+app.use("/api/stats", statsRoutes);
 
 // RUTAS - SPA (Catch-all)
 
@@ -38,8 +40,18 @@ app.use("/api/courses", coursesRoutes);
 //   res.sendFile(path.join(__dirname, "public", "index.html"));
 // });
 
-// SERVIDOR
+// // SERVIDOR
 
-app.listen(port, () => {
-	logMensaje(`Servidor escuchando en el puerto ${port}`);
-});
+// app.listen(port, () => {
+// 	logMensaje(`Servidor escuchando en el puerto ${port}`);
+// });
+
+// SERVIDOR (solo arranca si NO estamos en test)
+if (process.env.NODE_ENV == "test") {
+	app.listen(port, () => {
+		logMensaje(`Servidor escuchando en el puerto ${port}`);
+	});
+}
+
+// Exportamos la app para poder testearla con supertest
+module.exports = app;
