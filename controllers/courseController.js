@@ -1,6 +1,6 @@
 // controllers/courseController.js
 const { logMensaje } = require("../utils/logger.js");
-const courseService = require("../services/courseService");
+const courseService = require("../services/courseService.js");
 
 class CourseController {
 	async getAllCourses(req, res) {
